@@ -9,7 +9,20 @@ export default function Page() {
 
     useEffect(() => {
         const fetchJobs = async () => {
-            const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs`);
+            const csrfResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+            const csrfData = await csrfResponse.json();
+            const csrfToken = csrfData.csrfToken;
+
+            const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs`, {
+                headers: {
+
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Access-Control-Allow-Origin': '*'
+                },
+            });
             const jobs = await data.json();
             setListJobs(jobs);
         };
@@ -73,47 +86,47 @@ export default function Page() {
                             <div>Loading ...</div>
                     }
                 </div>
-                
+
                 <div className="w-[25%] flex flex-col items-center justify-start gap-4">
                     <div className='bg-white  rounded shadow-md  p-4 flex flex-col items-center'>
-                    <p className="font-bold text-lg">Email me for jobs</p>
-                    <p className="my-2 px-4 text-center">
-                        Stay updated! Subscribe to receive the latest job opportunities directly in your inbox.
-                    </p>
-                    
-                    <input
-                    id="title"
-                    className="border w-full p-2 my-5"
-                    placeholder="name@email.com"
-                />
-                    <Button
-                        variant="contained"
-                        className="my-5 py-2 w-full !bg-blue-500 !normal-case"
-                    >
-                        Subscribe
-                    </Button>
+                        <p className="font-bold text-lg">Email me for jobs</p>
+                        <p className="my-2 px-4 text-center">
+                            Stay updated! Subscribe to receive the latest job opportunities directly in your inbox.
+                        </p>
+
+                        <input
+                            id="title"
+                            className="border w-full p-2 my-5"
+                            placeholder="name@email.com"
+                        />
+                        <Button
+                            variant="contained"
+                            className="my-5 py-2 w-full !bg-blue-500 !normal-case"
+                        >
+                            Subscribe
+                        </Button>
                     </div>
 
                     <div className='bg-white  rounded shadow-md  p-4 flex flex-col items-center'>
-                    <p className="font-bold text-lg">Get noticet faster</p>
-                    <p className="my-2 px-4 text-center">
-                        Stay updated! Subscribe to receive the latest job opportunities directly in your inbox.
-                    </p>
-                    
-                  
-                    <Button
-                        variant="contained"
-                        className="my-5 py-2 w-full !bg-blue-500 !normal-case"
-                        
-                    >
-                        Upload your resume
-                    </Button>
+                        <p className="font-bold text-lg">Get noticet faster</p>
+                        <p className="my-2 px-4 text-center">
+                            Stay updated! Subscribe to receive the latest job opportunities directly in your inbox.
+                        </p>
+
+
+                        <Button
+                            variant="contained"
+                            className="my-5 py-2 w-full !bg-blue-500 !normal-case"
+
+                        >
+                            Upload your resume
+                        </Button>
                     </div>
                 </div>
 
             </div>
 
-            
+
         </div>
     )
 }
