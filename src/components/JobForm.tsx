@@ -46,6 +46,7 @@ const JobForm = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
           'X-CSRF-TOKEN': csrfToken,
+          'Access-Control-Allow-Origin' : '*'
         },
         body: JSON.stringify(inputForm),
         credentials: "include",
