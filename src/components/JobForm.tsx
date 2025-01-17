@@ -11,11 +11,11 @@ const JobForm = () => {
 
 
 
-    const toolbarOptions = [
+const toolbarOptions = React.useMemo(() => [
         ['bold', 'italic', 'underline', 'strike'],
         ['link'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    ];
+], []);
 
     useEffect(() => {
         if (quillRef.current) {
@@ -28,7 +28,7 @@ const JobForm = () => {
             });
             setQuillInstance(quill);
         }
-    }, []);
+    }, [toolbarOptions]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
